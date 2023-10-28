@@ -1,17 +1,20 @@
 from django.shortcuts import render
-
-# Create your views here.
+from .api_config import API_URL
 import requests
 from django.http import HttpResponse
 
 def index(request):
+    
     # Make a GET request to the backend API
-    response = requests.get('http://127.0.0.1:8001/api/get_response/')
+    response = requests.get(f'{API_URL}')
     
-    if response.status_code == 200:
-        data = response.json()
-        message = data.get('message')
-    else:
-        message = 'Error: Unable to get message from backend'
-    
-    return HttpResponse(f'Value from Backend: {message}')
+    try:
+        if response.status_code == 200:
+            data = response.json()
+            message = data.get('message')
+        else:
+            message = 'Error: Unable to get message from backend'
+    except requests.exceptions.RequestException as e:
+        message = f"Exception: {str(e)}"
+            
+    return HttpResponse(f'Response from Backend: {message}')
