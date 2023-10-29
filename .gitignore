@@ -1,1 +1,5 @@
-env/*
+env/**
+frontend/frontendapp/migrations/**
+frontend/frontendapp/__pycache__/**
+frontend/db.sqlite3
+frontend/.dockerenv
